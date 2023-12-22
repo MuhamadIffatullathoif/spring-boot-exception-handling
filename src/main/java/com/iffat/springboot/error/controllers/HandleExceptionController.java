@@ -1,5 +1,6 @@
 package com.iffat.springboot.error.controllers;
 
+import com.iffat.springboot.error.exceptions.UserNotFoundException;
 import com.iffat.springboot.error.models.Error;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,19 @@ public class HandleExceptionController {
         Map<String , Object> error = new HashMap<>();
         error.put("data", new Date());
         error.put("error", "Invalid format Number");
+        error.put("message", exception.getMessage());
+        error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+        return error;
+    }
+
+    @ExceptionHandler({NullPointerException.class, UserNotFoundException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, Object> userNotFoundException(Exception exception) {
+
+        Map<String , Object> error = new HashMap<>();
+        error.put("data", new Date());
+        error.put("error", "User not exists");
         error.put("message", exception.getMessage());
         error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
 

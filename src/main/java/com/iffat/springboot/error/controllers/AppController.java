@@ -1,5 +1,6 @@
 package com.iffat.springboot.error.controllers;
 
+import com.iffat.springboot.error.exceptions.UserNotFoundException;
 import com.iffat.springboot.error.models.domain.User;
 import com.iffat.springboot.error.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class AppController {
     @GetMapping("/user/{id}")
     public User show(@PathVariable(name = "id") Long id) {
         User user = userService.findById(id);
+        if(user == null) {
+            throw new UserNotFoundException("User with id " + id + " not exists");
+        }
         System.out.println(user.getLastname());
         return user;
     }
