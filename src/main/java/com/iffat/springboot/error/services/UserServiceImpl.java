@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private List<User> users;
 
@@ -25,13 +25,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Optional<User> findById(Long id) {
-        User user = null;
-        for (User userLoop: users){
-            if(userLoop.getId().equals(id)) {
-                user = userLoop;
-                break;
-            }
-        }
-        return Optional.ofNullable(user);
+        return users.stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 }
